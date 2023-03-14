@@ -135,12 +135,12 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         registry.addResourceHandler("/assets/**").addResourceLocations("/assets/");
     }
 
-    @Bean
-    public MessageSource messageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasenames("validation-message");
-        return messageSource;
-    }
+//    @Bean
+//    public MessageSource messageSource() {
+//        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+//        messageSource.setBasenames("validation-message");
+//        return messageSource;
+//    }
 
 //    @Override
 //    public void addInterceptors(InterceptorRegistry registry) {

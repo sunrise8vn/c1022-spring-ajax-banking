@@ -4,6 +4,7 @@ import com.cg.model.Customer;
 import com.cg.model.Deposit;
 import com.cg.model.LocationRegion;
 import com.cg.model.Transfer;
+import com.cg.model.dto.CustomerDTO;
 import com.cg.repository.CustomerRepository;
 import com.cg.repository.DepositRepository;
 import com.cg.repository.LocationRegionRepository;
@@ -37,6 +38,10 @@ public class CustomerServiceImpl implements ICustomerService{
         return customerRepository.findAll();
     }
 
+    @Override
+    public List<CustomerDTO> findAllCustomerDTO() {
+        return customerRepository.findAllCustomerDTO();
+    }
 
     @Override
     public List<Customer> findAllByIdNot(Long id) {

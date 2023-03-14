@@ -1,9 +1,11 @@
 package com.cg.model;
 
+import com.cg.model.dto.CustomerDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -18,6 +20,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "customers")
+@Accessors(chain = true)
 public class Customer extends BaseEntity implements Validator {
 
     @Id
@@ -35,7 +38,7 @@ public class Customer extends BaseEntity implements Validator {
     @Column(precision = 10, scale = 0, nullable = false)
     private BigDecimal balance;
 
-    @OneToMany(targetEntity = Deposit.class)
+    @OneToMany(mappedBy = "customer")
     private List<Deposit> deposits;
 
     @OneToMany(targetEntity = Transfer.class)
@@ -69,6 +72,18 @@ public class Customer extends BaseEntity implements Validator {
         if (!email.matches("^[\\w]+@([\\w-]+\\.)+[\\w-]{2,6}$")) {
             errors.rejectValue("email", "email.matches");
         }
+    }
 
+
+
+    public CustomerDTO toCustomerDTO() {
+        return new CustomerDTO()
+                .setId(id)
+                .setFullName(fullName)
+                .setEmail(email)
+                .setPhone(phone)
+                .setBalance(balance)
+                .setLocationRegion(locationRegion.toLocationRegionDTO())
+                ;
     }
 }
