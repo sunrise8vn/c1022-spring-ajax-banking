@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,9 +67,14 @@ public class CustomerServiceImpl implements ICustomerService{
     @Override
     public Deposit deposit(Deposit deposit) {
         depositRepository.save(deposit);
-        customerRepository.save(deposit.getCustomer());
+        customerRepository.incrementBalance(deposit.getTransactionAmount(), deposit.getCustomer());
 
         return deposit;
+    }
+
+    @Override
+    public void incrementBalance(BigDecimal transactionAmount, Customer customer) {
+        customerRepository.incrementBalance(transactionAmount, customer);
     }
 
     @Override

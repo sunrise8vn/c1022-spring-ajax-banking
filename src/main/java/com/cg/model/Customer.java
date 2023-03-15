@@ -35,7 +35,7 @@ public class Customer extends BaseEntity implements Validator {
 
     private String phone;
 
-    @Column(precision = 10, scale = 0, nullable = false)
+    @Column(precision = 10, scale = 0, updatable = false, nullable = false)
     private BigDecimal balance;
 
     @OneToMany(mappedBy = "customer")
