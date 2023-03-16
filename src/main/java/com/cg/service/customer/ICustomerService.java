@@ -12,6 +12,8 @@ import java.util.List;
 
 public interface ICustomerService extends IGeneralService<Customer> {
 
+    List<CustomerDTO> findAllByDeletedIsFalse();
+
     List<CustomerDTO> findAllCustomerDTO();
 
     List<Customer> findAllByIdNot(Long id);

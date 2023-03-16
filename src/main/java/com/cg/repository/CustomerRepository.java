@@ -15,6 +15,19 @@ import java.util.List;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
+    @Query("SELECT NEW com.cg.model.dto.CustomerDTO (" +
+                "cus.id, " +
+                "cus.fullName, " +
+                "cus.email, " +
+                "cus.phone, " +
+                "cus.balance, " +
+                "cus.locationRegion" +
+            ") " +
+            "FROM Customer AS cus " +
+            "WHERE cus.deleted = false "
+    )
+    List<CustomerDTO> findAllByDeletedIsFalse();
+
     List<Customer> findAllByIdNot(Long id);
 
     Boolean existsByEmailEquals(String email);

@@ -40,6 +40,11 @@ public class CustomerServiceImpl implements ICustomerService{
     }
 
     @Override
+    public List<CustomerDTO> findAllByDeletedIsFalse() {
+        return customerRepository.findAllByDeletedIsFalse();
+    }
+
+    @Override
     public List<CustomerDTO> findAllCustomerDTO() {
         return customerRepository.findAllCustomerDTO();
     }

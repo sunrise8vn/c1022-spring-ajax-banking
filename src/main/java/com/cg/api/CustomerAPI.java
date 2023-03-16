@@ -39,7 +39,7 @@ public class CustomerAPI {
 
 //        List<Customer> customers = customerService.findAll();
 
-        List<CustomerDTO> customerDTOS = customerService.findAllCustomerDTO();
+        List<CustomerDTO> customerDTOS = customerService.findAllByDeletedIsFalse();
 //
 //        for (Customer customer : customers) {
 //            CustomerDTO customerDTO = customer.toCustomerDTO();

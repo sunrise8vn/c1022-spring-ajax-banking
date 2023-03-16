@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,299 +7,477 @@
     <title>Index</title>
     <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/sweetalert2/v11.7.3/sweetalert2.min.css">
+    <link rel="stylesheet" href="/assets/css/custom-style.css">
 </head>
 <body>
-<div class="container">
-    <header>
-        <h1>Customers</h1>
-        <form id="frmCreateCustomer" method="post">
-            <div class="row">
-                <div class="form-group col-lg-6">
-                    <label>Full name</label>
-                    <input type="text" class="form-control" id="fullNameCre" placeholder="Enter full name">
+    <div class="container">
+        <header>
+            <div class="col-lg-5 fl-l">
+                <h1>List of customers</h1>
+            </div>
+            <div class="col-lg-7 fl-l">
+                <div class="col-lg-6 fl-r">
+                    <button class="btn btn-outline-light" id="btnShowCreateModal">
+                        Create customer
+                    </button>
                 </div>
-                <div class="form-group col-lg-6">
-                    <label>Email address</label>
-                    <input type="email" class="form-control" id="emailCre" placeholder="Enter email">
+                <div class="col-lg-6 fl-r">
+                    <button class="btn btn-outline-light">
+                        Transfer histories
+                    </button>
                 </div>
             </div>
-            <div class="row mb-3">
-                <div class="form-group col-lg-6">
-                    <label>Phone</label>
-                    <input type="tel" class="form-control" id="phoneCre" placeholder="Enter phone">
-                </div>
-                <div class="form-group col-lg-6">
-                    <label>Address</label>
-                    <input type="text" class="form-control" id="addressCre" placeholder="Enter address">
-                </div>
-            </div>
-            <button type="button" id="btnCreate" class="btn btn-success mr-2">Submit</button>
-        </form>
-    </header>
+        </header>
 
-    <div class="content">
-        <table id="tbCustomer" class="table table-hover">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>Full name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Address</th>
-                <th>Balance</th>
-                <th colspan="5">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- <tr>
-                <td>1</td>
-                <td>NVA</td>
-                <td>nva@co.cc</td>
-                <td>2345</td>
-                <td>28 Nguyễn Tri Phương</td>
-                <td>0</td>
-                <td>
-                    <button class="btn btn-outline-secondary">
-                        Edit
-                    </button>
-                </td>
-                <td>
-                    <button class="btn btn-outline-success">
-                        Deposit
-                    </button>
-                </td>
-                <td>
-                    <button class="btn btn-outline-warning">
-                        Withdraw
-                    </button>
-                </td>
-            </tr> -->
-            </tbody>
-        </table>
+        <div class="content">
+            <table id="tbCustomer" class="table table-hover">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Full name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Balance</th>
+                    <th>Province</th>
+                    <th>District</th>
+                    <th>Ward</th>
+                    <th>Address</th>
+                    <th colspan="5">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- <tr>
+                    <td>1</td>
+                    <td>NVA</td>
+                    <td>nva@co.cc</td>
+                    <td>2345</td>
+                    <td>28 Nguyễn Tri Phương</td>
+                    <td>0</td>
+                    <td>
+                        <button class="btn btn-outline-secondary">
+                            Edit
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-success">
+                            Deposit
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-warning">
+                            Withdraw
+                        </button>
+                    </td>
+                </tr> -->
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
-<!-- Modal Update -->
-<div class="modal fade" id="modalUpdate" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5">Modal update</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="frmUpdateCustomer" method="post">
-                    <div class="row">
-                        <div class="form-group col-lg-6">
-                            <label>Full name</label>
-                            <input type="text" class="form-control" id="fullNameUp" placeholder="Enter full name">
+    <th:block th:replace="customer/modal_create" />
+    <th:block th:replace="customer/modal_update" />
+
+    <!-- Modal Deposit -->
+    <div class="modal fade" id="modalDeposit" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Modal deposit</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="frmDeposit" method="post">
+                        <div class="row mb-3">
+                            <div class="form-group col-lg-6">
+                                <label>ID</label>
+                                <input type="text" class="form-control" id="idDep" readonly>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>Full name</label>
+                                <input type="text" class="form-control" id="fullNameDep" readonly>
+                            </div>
                         </div>
-                        <div class="form-group col-lg-6">
-                            <label>Email address</label>
-                            <input type="email" class="form-control" id="emailUp" placeholder="Enter email">
+                        <div class="row mb-3">
+                            <div class="form-group col-lg-6">
+                                <label>Balance</label>
+                                <input type="text" class="form-control" id="balanceDep" readonly>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>Transaction Amount</label>
+                                <input type="text" class="form-control" id="transactionAmountDep" placeholder="Enter transaction amount">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="form-group col-lg-6">
-                            <label>Phone</label>
-                            <input type="tel" class="form-control" id="phoneUp" placeholder="Enter phone">
-                        </div>
-                        <div class="form-group col-lg-6">
-                            <label>Address</label>
-                            <input type="text" class="form-control" id="addressUp" placeholder="Enter address">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" id="btnUpdate" class="btn btn-outline-secondary">Update</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="btnDeposit" class="btn btn-outline-success">Deposit</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Modal Deposit -->
-<div class="modal fade" id="modalDeposit" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5">Modal deposit</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="frmDeposit" method="post">
-                    <div class="row mb-3">
-                        <div class="form-group col-lg-6">
-                            <label>ID</label>
-                            <input type="text" class="form-control" id="idDep" readonly>
+    <!-- Modal Transfer -->
+    <div class="modal fade" id="modalTransfer" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Modal transfer</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="frmTransfer" method="post">
+                        <div class="row mb-3">
+                            <div class="form-group col-lg-2">
+                                <label>Sender ID</label>
+                                <input type="text" class="form-control" id="senderId" readonly>
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label>Sender name</label>
+                                <input type="text" class="form-control" id="senderName" readonly>
+                            </div>
+                            <div class="form-group col-lg-3">
+                                <label>Sender phone</label>
+                                <input type="text" class="form-control" id="senderPhone" readonly>
+                            </div>
+                            <div class="form-group col-lg-3">
+                                <label>Sender balance</label>
+                                <input type="text" class="form-control" id="senderBalance" readonly>
+                            </div>
                         </div>
-                        <div class="form-group col-lg-6">
-                            <label>Full name</label>
-                            <input type="text" class="form-control" id="fullNameDep" readonly>
+                        <div class="row mb-3">
+                            <div class="form-group col-lg-4">
+                                <label>Recipient</label>
+                                <select name="" id="recipientTrf" class="form-control"></select>
+                            </div>
+                            <div class="form-group col-lg-3">
+                                <label>Transfer Amount ($)</label>
+                                <input type="text" class="form-control" id="transferAmountTrf">
+                            </div>
+                            <div class="form-group col-lg-2">
+                                <label>Fees (%)</label>
+                                <input type="text" class="form-control" id="feesTrf" value="10" readonly>
+                            </div>
+                            <div class="form-group col-lg-3">
+                                <label>Transaction Amount ($)</label>
+                                <input type="text" class="form-control" id="transactionAmountTrf" placeholder="Enter transaction amount" readonly>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="form-group col-lg-6">
-                            <label>Balance</label>
-                            <input type="text" class="form-control" id="balanceDep" readonly>
-                        </div>
-                        <div class="form-group col-lg-6">
-                            <label>Transaction Amount</label>
-                            <input type="text" class="form-control" id="transactionAmountDep" placeholder="Enter transaction amount">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" id="btnDeposit" class="btn btn-outline-success">Deposit</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Transfer -->
-<div class="modal fade" id="modalTransfer" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-xl modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5">Modal transfer</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="frmTransfer" method="post">
-                    <div class="row mb-3">
-                        <div class="form-group col-lg-2">
-                            <label>Sender ID</label>
-                            <input type="text" class="form-control" id="senderId" readonly>
-                        </div>
-                        <div class="form-group col-lg-4">
-                            <label>Sender name</label>
-                            <input type="text" class="form-control" id="senderName" readonly>
-                        </div>
-                        <div class="form-group col-lg-3">
-                            <label>Sender phone</label>
-                            <input type="text" class="form-control" id="senderPhone" readonly>
-                        </div>
-                        <div class="form-group col-lg-3">
-                            <label>Sender balance</label>
-                            <input type="text" class="form-control" id="senderBalance" readonly>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="form-group col-lg-4">
-                            <label>Recipient</label>
-                            <select name="" id="recipientTrf" class="form-control"></select>
-                        </div>
-                        <div class="form-group col-lg-3">
-                            <label>Transfer Amount ($)</label>
-                            <input type="text" class="form-control" id="transferAmountTrf">
-                        </div>
-                        <div class="form-group col-lg-2">
-                            <label>Fees (%)</label>
-                            <input type="text" class="form-control" id="feesTrf" value="10" readonly>
-                        </div>
-                        <div class="form-group col-lg-3">
-                            <label>Transaction Amount ($)</label>
-                            <input type="text" class="form-control" id="transactionAmountTrf" placeholder="Enter transaction amount" readonly>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" id="btnTransfer" class="btn btn-outline-primary">Transfer</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="btnTransfer" class="btn btn-outline-primary">Transfer</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<script src="/assets/jquery/jquery-3.6.0.min.js"></script>
+    <script src="/assets/jquery/jquery-3.6.0.min.js"></script>
 
-<script src="/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<script src="/assets/sweetalert2/v11.7.3/sweetalert2.all.min.js"></script>
+    <script src="/assets/sweetalert2/v11.7.3/sweetalert2.all.min.js"></script>
 
-<script src="/assets/js/AppBase.js"></script>
+    <script src="/assets/js/AppBase.js"></script>
 
-<script>
+    <script>
 
-    const page = {
-        urls: {
-            getAllCustomers: AppBase.API_CUSTOMER,
-            findCustomerById: AppBase.API_CUSTOMER,
-            doCreate: AppBase.API_CUSTOMER,
-            incrementBalance: AppBase.API_CUSTOMER,
-            decrementBalance: AppBase.API_CUSTOMER,
-            insertDeposit: AppBase.API_DEPOSIT,
-            insertTransfer: AppBase.API_TRANSFER
-        },
-        elements: {},
-        loadData: {},
-        commands: {},
-        dialogs: {
+        const page = {
+            urls: {
+                getAllProvinces: AppBase.API_PROVINCE + '/',
+                getAllDistricts: AppBase.API_PROVINCE + '/district',
+                getAllWards: AppBase.API_PROVINCE + '/ward',
+                getAllCustomers: AppBase.API_CUSTOMER,
+                findCustomerById: AppBase.API_CUSTOMER,
+                doCreate: AppBase.API_CUSTOMER,
+                incrementBalance: AppBase.API_CUSTOMER,
+                decrementBalance: AppBase.API_CUSTOMER,
+                insertDeposit: AppBase.API_DEPOSIT,
+                insertTransfer: AppBase.API_TRANSFER
+            },
             elements: {},
             loadData: {},
             commands: {},
-        }
-    }
-
-    let currentCustomerId;
-
-    page.elements.btnCreate = $('#btnCreate');
-    page.elements.btnUpdate = $('#btnUpdate');
-    page.elements.btnDeposit = $('#btnDeposit');
-
-    page.dialogs.elements.modalUpdate = $('#modalUpdate');
-
-    page.dialogs.elements.modalTransfer = $("#modalTransfer");
-    page.dialogs.elements.frmTransfer = $("#frmTransfer");
-    page.dialogs.elements.senderId = $("#senderId");
-    page.dialogs.elements.senderName = $("#senderName");
-    page.dialogs.elements.senderPhone = $("#senderPhone");
-    page.dialogs.elements.senderBalance = $("#senderBalance");
-    page.dialogs.elements.recipientTrf = $("#recipientTrf");
-    page.dialogs.elements.transferAmountTrf = $("#transferAmountTrf");
-    page.dialogs.elements.feesTrf = $("#feesTrf");
-    page.dialogs.elements.transactionAmountTrf = $("#transactionAmountTrf");
-    page.dialogs.elements.btnTransfer = $("#btnTransfer");
-
-
-    page.elements.btnUpdate.on('click', () => {
-        let fullName = $('#fullNameUp').val();
-        let email = $('#emailUp').val();
-        let phone = $('#phoneUp').val();
-        let address = $('#addressUp').val();
-        let balance = 0;
-
-        let obj = {
-            fullName,
-            email,
-            phone,
-            address
+            dialogs: {
+                elements: {},
+                loadData: {},
+                commands: {},
+            }
         }
 
-        page.loadData.findCustomerById(currentCustomerId).then((data) => {
+        let currentCustomerId;
+
+        let locationRegion = new LocationRegion();
+        let customer = new Customer();
+
+        page.elements.btnShowCreateModal = $('#btnShowCreateModal');
+
+        page.dialogs.elements.modalCreateCustomer = $('#modalCreateCustomer');
+        page.dialogs.elements.fullNameCre = $('#fullNameCre');
+        page.dialogs.elements.emailCre = $('#emailCre');
+        page.dialogs.elements.phoneCre = $('#phoneCre');
+        page.dialogs.elements.provinceCre = $('#provinceCre');
+        page.dialogs.elements.districtCre = $('#districtCre');
+        page.dialogs.elements.wardCre = $('#wardCre');
+        page.dialogs.elements.addressCre = $('#addressCre');
+
+        page.dialogs.elements.modalUpdateCustomer = $('#modalUpdateCustomer');
+        page.dialogs.elements.fullNameUp = $('#fullNameUp');
+        page.dialogs.elements.emailUp = $('#emailUp');
+        page.dialogs.elements.phoneUp = $('#phoneUp');
+        page.dialogs.elements.provinceUp = $('#provinceUp');
+        page.dialogs.elements.districtUp = $('#districtUp');
+        page.dialogs.elements.wardUp = $('#wardUp');
+        page.dialogs.elements.addressUp = $('#addressUp');
+
+        page.elements.btnCreateCustomer = $('#btnCreateCustomer');
+        page.elements.btnUpdateCustomer = $('#btnUpdate');
+        page.elements.btnDeposit = $('#btnDeposit');
+
+        page.dialogs.elements.modalUpdate = $('#modalUpdate');
+
+        page.dialogs.elements.modalTransfer = $("#modalTransfer");
+        page.dialogs.elements.frmTransfer = $("#frmTransfer");
+        page.dialogs.elements.senderId = $("#senderId");
+        page.dialogs.elements.senderName = $("#senderName");
+        page.dialogs.elements.senderPhone = $("#senderPhone");
+        page.dialogs.elements.senderBalance = $("#senderBalance");
+        page.dialogs.elements.recipientTrf = $("#recipientTrf");
+        page.dialogs.elements.transferAmountTrf = $("#transferAmountTrf");
+        page.dialogs.elements.feesTrf = $("#feesTrf");
+        page.dialogs.elements.transactionAmountTrf = $("#transactionAmountTrf");
+        page.dialogs.elements.btnTransfer = $("#btnTransfer");
+
+
+        page.elements.btnUpdateCustomer.on('click', () => {
+            let fullName = $('#fullNameUp').val();
+            let email = $('#emailUp').val();
+            let phone = $('#phoneUp').val();
+            let address = $('#addressUp').val();
+            let balance = 0;
+
+            let obj = {
+                fullName,
+                email,
+                phone,
+                address
+            }
+
+            page.loadData.findCustomerById(currentCustomerId).then((data) => {
+                $.ajax({
+                    headers: {
+                        'accept': 'application/json',
+                        'content-type': 'application/json'
+                    },
+                    type: 'PATCH',
+                    url: 'http://localhost:3300/customers/' + currentCustomerId,
+                    data: JSON.stringify(obj)
+                })
+                    .done((data) => {
+                        let str = renderCustomer(data);
+                        $('#tr_' + currentCustomerId).replaceWith(str);
+
+                        $('.edit').off('click');
+                        $('.delete').off('click');
+
+                        addEventEditClick();
+
+                        addEventDeleteClick();
+
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Your work has been saved',
+                            showConfirmButton: false,
+                            timer: 2000
+                        })
+
+                        $('#modalUpdate').modal('hide');
+                    })
+                    .fail((error) => {
+                        console.log(error);
+                    })
+            })
+        })
+
+        page.elements.btnDeposit.on('click', () => {
+            let customerId = +$('#idDep').val();
+
+            let transactionAmount = +$('#transactionAmountDep').val();
+
+            let depObj = {
+                transactionAmount
+            }
+
+            page.commands.deposit(customerId, depObj).then((data) => {
+                let str = renderCustomer(data);
+                $('#tr_' + customerId).replaceWith(str);
+
+                $('.edit').off('click');
+                $('.deposit').off('click');
+                $('.delete').off('click');
+
+                addEventEditClick();
+
+                addEventDepositClick();
+
+                addEventDeleteClick();
+
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Your work has been saved',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+
+                $('#modalDeposit').modal('hide');
+            })
+        })
+
+        page.dialogs.elements.btnTransfer.on('click', () => {
+            let senderId = +page.dialogs.elements.senderId.val();
+            let recipientId = +page.dialogs.elements.recipientTrf.val();
+            let transferAmount = +page.dialogs.elements.transferAmountTrf.val();
+            let fees = 10;
+            let feesAmount = transferAmount * fees / 100;
+            let transactionAmount = transferAmount + feesAmount;
+
+            if (senderId === recipientId) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Recipient not valid',
+                    showConfirmButton: true
+                })
+                return;
+            }
+
+            page.loadData.findCustomerById(senderId).then((sender) => {
+
+                let currentSenderBalance = sender.balance;
+
+                if (currentSenderBalance < transactionAmount) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Sender balance not enough to proccess transfer',
+                        showConfirmButton: true
+                    })
+                    return;
+                }
+
+                page.loadData.findCustomerById(recipientId).then((recipient) => {
+                    let trfObj = {
+                        senderId,
+                        recipientId,
+                        transferAmount,
+                        fees,
+                        feesAmount,
+                        transactionAmount
+                    }
+
+                    page.commands.insertTransfer(trfObj);
+
+                    let newSenderBalance = currentSenderBalance - transactionAmount;
+                    let senderObj = {
+                        balance: newSenderBalance
+                    }
+
+                    page.commands.decrementBalance(senderId, senderObj).then((sender) => {
+                        let currentSenderRow = $('#tr_' + senderId);
+                        let newSenderRow = renderCustomer(sender);
+                        currentSenderRow.replaceWith(newSenderRow);
+                    });
+
+                    let currentRecipientBalance = recipient.balance;
+                    let newRecipientBalance = currentRecipientBalance + transferAmount;
+                    let recipientObj = {
+                        balance: newRecipientBalance
+                    }
+
+                    page.commands.incrementBalance(recipientId, recipientObj).then((recipient) => {
+                        let currentRecipientRow = $('#tr_' + recipientId);
+                        let newRecipientRow = renderCustomer(recipient);
+                        currentRecipientRow.replaceWith(newRecipientRow);
+                    });
+
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Transfer has been saved',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+
+                    page.dialogs.elements.modalTransfer.modal('hide');
+                })
+                    .catch(() => {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: 'Recipient not valid',
+                            showConfirmButton: true
+                        })
+                    })
+            })
+                .catch(() => {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Sender not valid',
+                        showConfirmButton: true
+                    })
+                })
+        })
+
+        page.commands.doCreate = () => {
+            let fullName = page.dialogs.elements.fullNameCre.val();
+            let email = page.dialogs.elements.emailCre.val();
+            let phone = page.dialogs.elements.phoneCre.val();
+            let provinceId = page.dialogs.elements.provinceCre.val();
+            let provinceName = page.dialogs.elements.provinceCre.find("option:selected").text();
+            let districtId = page.dialogs.elements.districtCre.val();
+            let districtName = page.dialogs.elements.districtCre.find("option:selected").text();
+            let wardId = page.dialogs.elements.wardCre.val();
+            let wardName = page.dialogs.elements.wardCre.find("option:selected").text();
+            let address = page.dialogs.elements.addressCre.val();
+
+            locationRegion = {
+                provinceId,
+                provinceName,
+                districtId,
+                districtName,
+                wardId,
+                wardName,
+                address
+            }
+
+            let balance = 0;
+
+            let obj = {
+                fullName,
+                email,
+                phone,
+                locationRegion,
+                balance: 0
+            }
+
             $.ajax({
                 headers: {
                     'accept': 'application/json',
                     'content-type': 'application/json'
                 },
-                type: 'PATCH',
-                url: 'http://localhost:3300/customers/' + currentCustomerId,
+                type: 'POST',
+                url: page.urls.doCreate,
                 data: JSON.stringify(obj)
             })
                 .done((data) => {
-                    let str = renderCustomer(data);
-                    $('#tr_' + currentCustomerId).replaceWith(str);
-
-                    $('.edit').off('click');
-                    $('.delete').off('click');
-
-                    addEventEditClick();
-
-                    addEventDeleteClick();
+                    customer = data;
+                    locationRegion = customer.locationRegion;
+                    let str = renderCustomer(customer, locationRegion);
+                    $('#tbCustomer tbody').prepend(str);
 
                     Swal.fire({
                         position: 'top-end',
@@ -309,452 +487,410 @@
                         timer: 2000
                     })
 
-                    $('#modalUpdate').modal('hide');
+                    page.dialogs.elements.modalCreateCustomer.modal('hide');
+
+
+                    $('.edit').off('click');
+                    $('.deposit').off('click');
+                    $('.delete').off('click');
+
+                    addEventEditClick();
+
+                    addEventDepositClick();
+
+                    addEventDeleteClick();
                 })
                 .fail((error) => {
                     console.log(error);
                 })
-        })
-    })
-
-    page.elements.btnDeposit.on('click', () => {
-        let customerId = +$('#idDep').val();
-
-        let transactionAmount = +$('#transactionAmountDep').val();
-
-        let depObj = {
-            transactionAmount
         }
 
-        page.commands.deposit(customerId, depObj).then((data) => {
-            let str = renderCustomer(data);
-            $('#tr_' + customerId).replaceWith(str);
-
-            $('.edit').off('click');
-            $('.deposit').off('click');
-            $('.delete').off('click');
-
-            addEventEditClick();
-
-            addEventDepositClick();
-
-            addEventDeleteClick();
-
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: 'Your work has been saved',
-                showConfirmButton: false,
-                timer: 2000
+        page.commands.deposit = (customerId, depObj) => {
+            return $.ajax({
+                headers: {
+                    'accept': 'application/json',
+                    'content-type': 'application/json'
+                },
+                type: 'POST',
+                url: page.urls.insertDeposit + "/" + customerId,
+                data: JSON.stringify(depObj)
             })
-
-            $('#modalDeposit').modal('hide');
-        })
-    })
-
-    page.dialogs.elements.btnTransfer.on('click', () => {
-        let senderId = +page.dialogs.elements.senderId.val();
-        let recipientId = +page.dialogs.elements.recipientTrf.val();
-        let transferAmount = +page.dialogs.elements.transferAmountTrf.val();
-        let fees = 10;
-        let feesAmount = transferAmount * fees / 100;
-        let transactionAmount = transferAmount + feesAmount;
-
-        if (senderId === recipientId) {
-            Swal.fire({
-                position: 'center',
-                icon: 'error',
-                title: 'Recipient not valid',
-                showConfirmButton: true
-            })
-            return;
+                .fail((error) => {
+                    console.log(error);
+                })
         }
 
-        page.loadData.findCustomerById(senderId).then((sender) => {
-
-            let currentSenderBalance = sender.balance;
-
-            if (currentSenderBalance < transactionAmount) {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: 'Sender balance not enough to proccess transfer',
-                    showConfirmButton: true
-                })
-                return;
-            }
-
-            page.loadData.findCustomerById(recipientId).then((recipient) => {
-                let trfObj = {
-                    senderId,
-                    recipientId,
-                    transferAmount,
-                    fees,
-                    feesAmount,
-                    transactionAmount
-                }
-
-                page.commands.insertTransfer(trfObj);
-
-                let newSenderBalance = currentSenderBalance - transactionAmount;
-                let senderObj = {
-                    balance: newSenderBalance
-                }
-
-                page.commands.decrementBalance(senderId, senderObj).then((sender) => {
-                    let currentSenderRow = $('#tr_' + senderId);
-                    let newSenderRow = renderCustomer(sender);
-                    currentSenderRow.replaceWith(newSenderRow);
-                });
-
-                let currentRecipientBalance = recipient.balance;
-                let newRecipientBalance = currentRecipientBalance + transferAmount;
-                let recipientObj = {
-                    balance: newRecipientBalance
-                }
-
-                page.commands.incrementBalance(recipientId, recipientObj).then((recipient) => {
-                    let currentRecipientRow = $('#tr_' + recipientId);
-                    let newRecipientRow = renderCustomer(recipient);
-                    currentRecipientRow.replaceWith(newRecipientRow);
-                });
-
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Transfer has been saved',
-                    showConfirmButton: false,
-                    timer: 2000
-                })
-
-                page.dialogs.elements.modalTransfer.modal('hide');
+        page.commands.insertTransfer = (trfObj) => {
+            return $.ajax({
+                headers: {
+                    'accept': 'application/json',
+                    'content-type': 'application/json'
+                },
+                type: 'POST',
+                url: page.urls.insertTransfer,
+                data: JSON.stringify(trfObj)
             })
-                .catch(() => {
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: 'Recipient not valid',
-                        showConfirmButton: true
+                .fail((error) => {
+                    console.log(error);
+                })
+        }
+
+        page.commands.incrementBalance = (customerId, customerObj) => {
+            return $.ajax({
+                headers: {
+                    'accept': 'application/json',
+                    'content-type': 'application/json'
+                },
+                type: 'PATCH',
+                url: page.urls.incrementBalance + '/' + customerId,
+                data: JSON.stringify(customerObj)
+            })
+                .fail((error) => {
+                    console.log(error);
+                })
+        }
+
+        page.commands.decrementBalance = (customerId, customerObj) => {
+            return $.ajax({
+                headers: {
+                    'accept': 'application/json',
+                    'content-type': 'application/json'
+                },
+                type: 'PATCH',
+                url: page.urls.decrementBalance + '/' + customerId,
+                data: JSON.stringify(customerObj)
+            })
+                .fail((error) => {
+                    console.log(error);
+                })
+        }
+
+
+        function addEventEditClick() {
+            $('.edit').on('click', function() {
+                let customerId = $(this).data('id');
+
+                page.loadData.findCustomerById(customerId).then((data) => {
+                    customer = data;
+                    locationRegion = customer.locationRegion;
+                    currentCustomerId = customerId;
+                    page.dialogs.elements.fullNameUp.val(customer.fullName);
+                    page.dialogs.elements.emailUp.val(customer.email);
+                    page.dialogs.elements.phoneUp.val(customer.phone);
+                    page.dialogs.elements.provinceUp.val(locationRegion.provinceId);
+
+                    page.loadData.getAllDistrictsByProvinceId(locationRegion.provinceId, page.dialogs.elements.districtUp).then(() => {
+                        page.dialogs.elements.districtUp.val(locationRegion.districtId);
+
+                        page.loadData.getAllWardsByDistrictId(locationRegion.districtId, page.dialogs.elements.wardUp).then(() => {
+                            page.dialogs.elements.wardUp.val(locationRegion.wardId);
+                        });
+                    });
+
+                    page.dialogs.elements.addressUp.val(customer.address);
+
+                    page.dialogs.elements.modalUpdateCustomer.modal('show');
+                })
+                    .catch((error) => {
+                        alert("Kokyaku wa sonzai shimasen");
+                    });
+            })
+        }
+
+        function addEventDepositClick() {
+            $('.deposit').on('click', function() {
+                let customerId = $(this).data('id');
+
+                page.loadData.findCustomerById(customerId).then((customer) => {
+                    currentCustomerId = customerId;
+                    $('#idDep').val(customer.id);
+                    $('#fullNameDep').val(customer.fullName);
+                    $('#balanceDep').val(customer.balance);
+
+                    $('#modalDeposit').modal('show');
+                })
+                    .catch((error) => {
+                        alert("Kokyaku wa sonzai shimasen");
+                    });
+            })
+        }
+
+        page.commands.addEventTransferClick = () => {
+            $('.transfer').on('click', function () {
+                let senderId = $(this).data('sender-id');
+
+                page.loadData.findCustomerById(senderId).then((sender) => {
+                    page.loadData.getAllRecipients(senderId);
+
+                    page.dialogs.elements.senderId.val(sender.id);
+                    page.dialogs.elements.senderName.val(sender.fullName);
+                    page.dialogs.elements.senderPhone.val(sender.phone);
+                    page.dialogs.elements.senderBalance.val(sender.balance);
+
+
+                    page.dialogs.elements.modalTransfer.modal('show');
+                })
+            })
+        }
+
+        function addEventDeleteClick() {
+            $('.delete').on('click', function() {
+                let customerId = $(this).data('id');
+
+                let customer = page.loadData.findCustomerById(customerId);
+
+                if (customer) {
+                    $.each(customers, (i, item) => {
+                        if (item.id === customerId) {
+                            customers.splice(i, 1);
+                            $('#tr_' + customerId).remove();
+                            alert("Đã xóa thành công")
+                        }
+                    })
+                }
+            })
+        }
+
+        function renderCustomer(customer, locationRegion) {
+            return `
+                    <tr id="tr_${customer.id}">
+                        <td>${customer.id}</td>
+                        <td>${customer.fullName}</td>
+                        <td>${customer.email}</td>
+                        <td>${customer.phone}</td>
+                        <td>${customer.balance}</td>
+                        <td>${locationRegion.provinceName}</td>
+                        <td>${locationRegion.districtName}</td>
+                        <td>${locationRegion.wardName}</td>
+                        <td>${locationRegion.address}</td>
+
+                        <td>
+                            <button class="btn btn-outline-secondary edit" data-id="${customer.id}">
+                                Edit
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-success deposit" data-id="${customer.id}">
+                                Deposit
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-warning withdraw" data-id="${customer.id}">
+                                Withdraw
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-primary transfer" data-sender-id="${customer.id}">
+                                Transfer
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-danger delete" data-id="${customer.id}">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                `;
+        }
+
+        function renderRecipientOption(obj) {
+            return `
+                    <option value="${obj.id}">(${obj.id}) - ${obj.fullName}</option>
+                `;
+        }
+
+        page.commands.addEventChangeTransferAmount = () => {
+            let transferAmountElem = page.dialogs.elements.transferAmountTrf;
+            transferAmountElem.on("input", function () {
+                let transferAmount = +transferAmountElem.val();
+                let fees = 10;
+                let feesAmount = transferAmount * fees / 100;
+                let transactionAmount = transferAmount + feesAmount;
+                page.dialogs.elements.transactionAmountTrf.val(transactionAmount);
+            })
+        }
+
+        page.loadData.findCustomerById = (id) => {
+            return $.ajax({
+                type: 'GET',
+                url: page.urls.findCustomerById + '/' + id
+            })
+                .done((data) => {
+
+                })
+                .fail((error) => {
+                    console.log(error);
+                })
+        }
+
+        page.loadData.getAllCustomers = () => {
+            $.ajax({
+                type: 'GET',
+                url: page.urls.getAllCustomers
+            })
+                .done((data) => {
+                    $.each(data, (i, item) => {
+                        customer = item;
+                        locationRegion = customer.locationRegion;
+                        let str = renderCustomer(customer, locationRegion);
+                        $('#tbCustomer tbody').prepend(str);
+                    })
+
+                    addEventEditClick();
+
+                    addEventDeleteClick();
+
+                    addEventDepositClick();
+
+                    page.commands.addEventTransferClick();
+
+                })
+                .fail((error) => {
+                    console.log(error);
+                })
+        }
+
+        page.loadData.getAllRecipients = (senderId) => {
+            $.ajax({
+                type: 'GET',
+                url: page.urls.getAllCustomers + '?id_ne=' + senderId
+            })
+                .done((data) => {
+                    page.dialogs.elements.recipientTrf.empty();
+
+                    $.each(data, (i, item) => {
+                        let str = renderRecipientOption(item);
+                        page.dialogs.elements.recipientTrf.append(str);
                     })
                 })
-        })
-            .catch(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: 'Sender not valid',
-                    showConfirmButton: true
+                .fail((error) => {
+                    console.log(error);
                 })
-            })
-    })
-
-    page.commands.doCreate = () => {
-        let fullName = $('#fullNameCre').val();
-        let email = $('#emailCre').val();
-        let phone = $('#phoneCre').val();
-        let address = $('#addressCre').val();
-        let balance = 0;
-
-        let obj = {
-            fullName,
-            email,
-            phone,
-            address,
-            balance: 0
         }
 
-        $.ajax({
-            headers: {
-                'accept': 'application/json',
-                'content-type': 'application/json'
-            },
-            type: 'POST',
-            url: page.urls.doCreate,
-            data: JSON.stringify(obj)
-        })
+        page.loadData.getAllProvinces = () => {
+            return $.ajax({
+                type: 'GET',
+                url: page.urls.getAllProvinces
+            })
             .done((data) => {
-                let str = renderCustomer(data);
-                $('#tbCustomer tbody').prepend(str);
+                let provinces = data.results;
 
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Your work has been saved',
-                    showConfirmButton: false,
-                    timer: 2000
+                $.each(provinces, (i, item) => {
+                    let str = `<option value="${item.province_id}">${item.province_name}</option>`;
+
+                    page.dialogs.elements.provinceCre.append(str);
+                    page.dialogs.elements.provinceUp.append(str);
                 })
             })
-            .fail((error) => {
-                console.log(error);
+            .fail((jqXHR) => {
+                console.log(jqXHR)
             })
-    }
+        }
 
-    page.commands.deposit = (customerId, depObj) => {
-        return $.ajax({
-            headers: {
-                'accept': 'application/json',
-                'content-type': 'application/json'
-            },
-            type: 'POST',
-            url: page.urls.insertDeposit + "/" + customerId,
-            data: JSON.stringify(depObj)
-        })
-            .fail((error) => {
-                console.log(error);
+        page.loadData.getAllDistrictsByProvinceId = (provinceId, elem) => {
+            return $.ajax({
+                type: 'GET',
+                url: page.urls.getAllDistricts + '/' + provinceId
             })
-    }
+                .done((data) => {
+                    elem.empty();
 
-    page.commands.insertTransfer = (trfObj) => {
-        return $.ajax({
-            headers: {
-                'accept': 'application/json',
-                'content-type': 'application/json'
-            },
-            type: 'POST',
-            url: page.urls.insertTransfer,
-            data: JSON.stringify(trfObj)
-        })
-            .fail((error) => {
-                console.log(error);
+                    let districts = data.results;
+
+                    $.each(districts, (i, item) => {
+                        let str = `<option value="${item.district_id}">${item.district_name}</option>`;
+
+                        elem.append(str);
+                    })
+                })
+                .fail((jqXHR) => {
+                    console.log(jqXHR)
+                })
+        }
+
+        page.loadData.getAllWardsByDistrictId = (districtId, elem) => {
+            return $.ajax({
+                type: 'GET',
+                url: page.urls.getAllWards + '/' + districtId
             })
-    }
+                .done((data) => {
+                    elem.empty();
+                    let wards = data.results;
 
-    page.commands.incrementBalance = (customerId, customerObj) => {
-        return $.ajax({
-            headers: {
-                'accept': 'application/json',
-                'content-type': 'application/json'
-            },
-            type: 'PATCH',
-            url: page.urls.incrementBalance + '/' + customerId,
-            data: JSON.stringify(customerObj)
-        })
-            .fail((error) => {
-                console.log(error);
-            })
-    }
+                    $.each(wards, (i, item) => {
+                        let str = `<option value="${item.ward_id}">${item.ward_name}</option>`;
 
-    page.commands.decrementBalance = (customerId, customerObj) => {
-        return $.ajax({
-            headers: {
-                'accept': 'application/json',
-                'content-type': 'application/json'
-            },
-            type: 'PATCH',
-            url: page.urls.decrementBalance + '/' + customerId,
-            data: JSON.stringify(customerObj)
-        })
-            .fail((error) => {
-                console.log(error);
-            })
-    }
+                        elem.append(str);
+                    })
+                })
+                .fail((jqXHR) => {
+                    console.log(jqXHR)
+                })
+        }
 
+        page.commands.loadData = () => {
+            page.loadData.getAllCustomers();
 
-    function addEventEditClick() {
-        $('.edit').on('click', function() {
-            let customerId = $(this).data('id');
+            page.loadData.getAllProvinces().then(() => {
+                let provinceId = page.dialogs.elements.provinceCre.val();
 
-            page.loadData.findCustomerById(customerId).then((customer) => {
-                console.log("customer ---------------------");
-                console.log(customer);
-                currentCustomerId = customerId;
-                $('#fullNameUp').val(customer.fullName);
-                $('#emailUp').val(customer.email);
-                $('#phoneUp').val(customer.phone);
-                $('#addressUp').val(customer.address);
+                page.loadData.getAllDistrictsByProvinceId(provinceId, page.dialogs.elements.districtCre).then(() => {
+                    let districtId = page.dialogs.elements.districtCre.val();
 
-                $('#modalUpdate').modal('show');
-            })
-                .catch((error) => {
-                    alert("Kokyaku wa sonzai shimasen");
+                    page.loadData.getAllWardsByDistrictId(districtId, page.dialogs.elements.wardCre);
                 });
-        })
-    }
+            });
+        }
 
-    function addEventDepositClick() {
-        $('.deposit').on('click', function() {
-            let customerId = $(this).data('id');
+        page.commands.handleChangeProvince = (elemProvince, elemDistrict, elemWard) => {
+            elemProvince.on('change', function () {
+                let provinceId = $(this).val();
 
-            page.loadData.findCustomerById(customerId).then((customer) => {
-                currentCustomerId = customerId;
-                $('#idDep').val(customer.id);
-                $('#fullNameDep').val(customer.fullName);
-                $('#balanceDep').val(customer.balance);
+                page.loadData.getAllDistrictsByProvinceId(provinceId, elemDistrict).then(() => {
+                    let districtId = elemDistrict.val();
 
-                $('#modalDeposit').modal('show');
-            })
-                .catch((error) => {
-                    alert("Kokyaku wa sonzai shimasen");
+                    page.loadData.getAllWardsByDistrictId(districtId, elemWard);
                 });
-        })
-    }
-
-    page.commands.addEventTransferClick = () => {
-        $('.transfer').on('click', function () {
-            let senderId = $(this).data('sender-id');
-
-            page.loadData.findCustomerById(senderId).then((sender) => {
-                page.loadData.getAllRecipients(senderId);
-
-                page.dialogs.elements.senderId.val(sender.id);
-                page.dialogs.elements.senderName.val(sender.fullName);
-                page.dialogs.elements.senderPhone.val(sender.phone);
-                page.dialogs.elements.senderBalance.val(sender.balance);
-
-
-                page.dialogs.elements.modalTransfer.modal('show');
             })
-        })
-    }
+        }
 
-    function addEventDeleteClick() {
-        $('.delete').on('click', function() {
-            let customerId = $(this).data('id');
+        page.commands.handleChangeDistrict = (elemDistrict, elemWard) => {
+            elemDistrict.on('change', function () {
+                let districtId = $(this).val();
 
-            let customer = page.loadData.findCustomerById(customerId);
-
-            if (customer) {
-                $.each(customers, (i, item) => {
-                    if (item.id === customerId) {
-                        customers.splice(i, 1);
-                        $('#tr_' + customerId).remove();
-                        alert("Đã xóa thành công")
-                    }
-                })
-            }
-        })
-    }
-
-    function renderCustomer(obj) {
-        return `
-                <tr id="tr_${obj.id}">
-                    <td>${obj.id}</td>
-                    <td>${obj.fullName}</td>
-                    <td>${obj.email}</td>
-                    <td>${obj.phone}</td>
-                    <td>${obj.address}</td>
-                    <td>${obj.balance}</td>
-                    <td>
-                        <button class="btn btn-outline-secondary edit" data-id="${obj.id}">
-                            Edit
-                        </button>
-                    </td>
-                    <td>
-                        <button class="btn btn-outline-success deposit" data-id="${obj.id}">
-                            Deposit
-                        </button>
-                    </td>
-                    <td>
-                        <button class="btn btn-outline-warning withdraw" data-id="${obj.id}">
-                            Withdraw
-                        </button>
-                    </td>
-                    <td>
-                        <button class="btn btn-outline-primary transfer" data-sender-id="${obj.id}">
-                            Transfer
-                        </button>
-                    </td>
-                    <td>
-                        <button class="btn btn-outline-danger delete" data-id="${obj.id}">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-            `;
-    }
-
-    function renderRecipientOption(obj) {
-        return `
-                <option value="${obj.id}">(${obj.id}) - ${obj.fullName}</option>
-            `;
-    }
-
-    page.commands.addEventChangeTransferAmount = () => {
-        let transferAmountElem = page.dialogs.elements.transferAmountTrf;
-        transferAmountElem.on("input", function () {
-            let transferAmount = +transferAmountElem.val();
-            let fees = 10;
-            let feesAmount = transferAmount * fees / 100;
-            let transactionAmount = transferAmount + feesAmount;
-            page.dialogs.elements.transactionAmountTrf.val(transactionAmount);
-        })
-    }
-
-    page.loadData.findCustomerById = (id) => {
-        return $.ajax({
-            type: 'GET',
-            url: page.urls.findCustomerById + '/' + id
-        })
-            .done((data) => {
-
+                page.loadData.getAllWardsByDistrictId(districtId, elemWard);
             })
-            .fail((error) => {
-                console.log(error);
-            })
-    }
+        }
 
-    page.loadData.getAllCustomers = () => {
-        $.ajax({
-            type: 'GET',
-            url: page.urls.getAllCustomers
+        page.initializeControlEvent = () => {
+
+            page.elements.btnShowCreateModal.on('click', () => {
+                page.dialogs.elements.modalCreateCustomer.modal('show');
+            })
+
+            page.elements.btnCreateCustomer.on('click', function () {
+                page.commands.doCreate();
+            });
+
+            page.commands.addEventChangeTransferAmount();
+
+            page.commands.handleChangeProvince(page.dialogs.elements.provinceCre, page.dialogs.elements.districtCre, page.dialogs.elements.wardCre);
+
+            page.commands.handleChangeProvince(page.dialogs.elements.provinceUp, page.dialogs.elements.districtUp, page.dialogs.elements.wardUp);
+
+            page.commands.handleChangeDistrict(page.dialogs.elements.districtCre, page.dialogs.elements.wardCre);
+
+            page.commands.handleChangeDistrict(page.dialogs.elements.districtUp, page.dialogs.elements.wardUp);
+        }
+
+        $(() => {
+            page.commands.loadData();
+
+            page.initializeControlEvent();
         })
-            .done((data) => {
-                $.each(data, (i, item) => {
-                    let str = renderCustomer(item);
-                    $('#tbCustomer tbody').prepend(str);
-                })
-
-                addEventEditClick();
-
-                addEventDeleteClick();
-
-                addEventDepositClick();
-
-                page.commands.addEventTransferClick();
-
-            })
-            .fail((error) => {
-                console.log(error);
-            })
-    }
-
-    page.loadData.getAllRecipients = (senderId) => {
-        $.ajax({
-            type: 'GET',
-            url: page.urls.getAllCustomers + '?id_ne=' + senderId
-        })
-            .done((data) => {
-                page.dialogs.elements.recipientTrf.empty();
-
-                $.each(data, (i, item) => {
-                    let str = renderRecipientOption(item);
-                    page.dialogs.elements.recipientTrf.append(str);
-                })
-            })
-            .fail((error) => {
-                console.log(error);
-            })
-    }
-
-    page.commands.loadData = () => {
-        page.loadData.getAllCustomers();
-    }
-
-    page.initializeControlEvent = () => {
-        page.elements.btnCreate.on('click', function () {
-            page.commands.doCreate();
-        });
-
-        page.commands.addEventChangeTransferAmount();
-    }
-
-    $(() => {
-        page.commands.loadData();
-
-        page.initializeControlEvent();
-    })
 
 
-</script>
+    </script>
 </body>
 </html>
